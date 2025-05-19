@@ -16,11 +16,11 @@ from src.widget import get_date, mask_account_card
         ("Счет 73654108430135874305", "Счет **4305"),
     ],
 )
-def test_mask_account_card(x, expected):
+def test_mask_account_card(x: str, expected: str) -> None:
     assert mask_account_card(x) == expected
 
 
-def test_mask_account_card_invalid_type():
+def test_mask_account_card_invalid_type() -> None:
     with pytest.raises(TypeError):
         mask_account_card([])
         mask_account_card(11)
@@ -34,17 +34,17 @@ def test_mask_account_card_invalid_type():
         ("2025-01-12T32:76:04.875934", "12.01.2025"),
     ],
 )
-def test_get_date(x, expected):
+def test_get_date(x: str, expected: str) -> None:
     assert get_date(x) == expected
 
 
-def test_get_date_invalid_value():
+def test_get_date_invalid_value() -> None:
     with pytest.raises(ValueError):
         get_date("")
         get_date("2024-03")
 
 
-def test_get_date_invalid_type():
+def test_get_date_invalid_type() -> None:
     with pytest.raises(TypeError):
         get_date(["2023-08-23"])
         get_date(20240312)

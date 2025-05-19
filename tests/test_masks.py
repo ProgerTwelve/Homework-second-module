@@ -1,3 +1,5 @@
+from typing import Union
+
 import pytest
 
 from src.masks import get_mask_account, get_mask_card_number
@@ -12,18 +14,18 @@ from src.masks import get_mask_account, get_mask_card_number
         (6740377957499483, "6740 37** **** 9483"),
     ],
 )
-def test_get_mask_card_number(x, expected):
+def test_get_mask_card_number(x: Union[int, str], expected: str) -> None:
     assert get_mask_card_number(x) == expected
 
 
-def test_get_mask_card_number_invalid_value():
+def test_get_mask_card_number_invalid_value() -> None:
     with pytest.raises(ValueError):
         get_mask_card_number("6767 6767 6767 4537")
         get_mask_card_number("")
         get_mask_card_number(9)
 
 
-def test_get_mask_card_number_invalid_type():
+def test_get_mask_card_number_invalid_type() -> None:
     with pytest.raises(TypeError):
         get_mask_card_number([12127694])
         get_mask_card_number({"1122": 322})
@@ -39,18 +41,18 @@ def test_get_mask_card_number_invalid_type():
         ("99999999999999999999", "**9999"),
     ],
 )
-def test_get_mask_account(x, expected):
+def test_get_mask_account(x: Union[int, str], expected: str) -> None:
     assert get_mask_account(x) == expected
 
 
-def test_get_mask_account_invalid_value():
+def test_get_mask_account_invalid_value() -> None:
     with pytest.raises(ValueError):
         get_mask_account("885643983")
         get_mask_account(0000000000)
         get_mask_account("")
 
 
-def test_get_mask_account_invalid_type():
+def test_get_mask_account_invalid_type() -> None:
     with pytest.raises(TypeError):
         get_mask_account([])
         get_mask_account((1, 1))
