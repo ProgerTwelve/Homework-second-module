@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.fixture
 def my_list_dict() -> list:
     return [
@@ -49,7 +50,7 @@ def transactions() -> list:
             "description": "Перевод со счета на счет",
             "from": "Счет 19708645243227258542",
             "to": "Счет 75651667383060284188",
-        }
+        },
     ]
 
 
@@ -73,8 +74,9 @@ def invalid_transactions() -> list:
             "description": "Перевод со счета на счет",
             "from": "Счет 19708645243227258542",
             "to": "Счет 75651667383060284188",
-        }
+        },
     ]
+
 
 @pytest.fixture
 def invalid_transactions_2() -> list:
@@ -94,5 +96,5 @@ def invalid_transactions_2() -> list:
             "operationAmount": {"amount": "79114.93", "currency": {"name": "RUB", "code": "RUB"}},
             "from": "Счет 19708645243227258542",
             "to": "Счет 75651667383060284188",
-        }
+        },
     ]

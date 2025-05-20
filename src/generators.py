@@ -2,9 +2,9 @@ from typing import Any
 
 
 def filter_by_currency(transactions: list[dict[str, Any]], name_of_currency: str) -> iter:
-    """ Принимает на вход список словарей, представляющих транзакции.
+    """Принимает на вход список словарей, представляющих транзакции.
     Функция должна возвращать итератор, который поочередно выдает транзакции,
-    где валюта операции соответствует заданной (например, USD). """
+    где валюта операции соответствует заданной (например, USD)."""
 
     try:
         for transaction in transactions:
@@ -27,8 +27,8 @@ def transaction_descriptions(transactions_2: list[dict[str, Any]]) -> iter:
 
 def card_number_generator(start_value: int, stop_value: int) -> iter:
     """Генератор, который выдает номера банковских карт в формате 'XXXX XXXX XXXX XXXX',
-     где X — цифра номера карты.
-     Генератор может сгенерировать номера карт в заданном диапазоне от 0000 0000 0000 0001 до 9999 9999 9999 9999."""
+    где X — цифра номера карты.
+    Генератор может сгенерировать номера карт в заданном диапазоне от 0000 0000 0000 0001 до 9999 9999 9999 9999."""
 
     if isinstance(start_value, int) and isinstance(stop_value, int):
         try:
@@ -39,12 +39,3 @@ def card_number_generator(start_value: int, stop_value: int) -> iter:
             print("Элементы итерации закончены")
     else:
         raise TypeError("Неверный тип данных!")
-
-
-
-
-
-
-
-
-
