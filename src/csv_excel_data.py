@@ -22,4 +22,4 @@ def get_excel_data(path: str = excel_path) -> list[dict[Any, Any]]:
     return excel_data.to_dict(orient="records")
 
 
-print(get_excel_data())
+
