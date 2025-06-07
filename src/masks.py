@@ -1,15 +1,14 @@
 import logging
 from typing import Union
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    filename="../logs/masks.log",  # Запись логов в папку logs в файл masks.log
-    encoding="utf-8",
-    filemode="w",
-)  # Перезапись файла при каждом запуске
-
 masks_log = logging.getLogger("masks")
+file_handler = logging.FileHandler(
+    r"C:\Users\Admin\PycharmProjects\PythonProject\logs\masks.log", "w", encoding="UTF-8"
+)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+masks_log.addHandler(file_handler)
+masks_log.setLevel(logging.DEBUG)
 
 
 def get_mask_card_number(card_number: Union[int, str]) -> str:
