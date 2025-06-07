@@ -2,15 +2,12 @@ import json
 import logging
 from typing import Any
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    filename="../logs/utils.log",  # Запись логов в папку logs в файл utils.log
-    encoding="utf-8",
-    filemode="w",
-)  # Перезапись файла при каждом запуске
-
 utils_log = logging.getLogger("utils")
+file_handler = logging.FileHandler("../logs/utils.log", encoding="UTF-8")
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+utils_log.addHandler(file_handler)
+utils_log.setLevel(logging.DEBUG)
 
 
 def get_data_from_json_file(path: str) -> list[dict[Any, Any]]:
