@@ -2,41 +2,40 @@ import re
 from collections import Counter
 
 
-def process_bank_search(data:list[dict], search:str)->list[dict]:
-    """Принимает список словарей с данными о банковских операциях и строку поиска,
-    а возвращает список словарей, у которых в описании есть данная строка."""
+def process_bank_search(data: list[dict], search: str) -> list[dict]:
+    """
+    Функция принимает список словарей с данными о банковских операциях и строку поиска.
+    Возвращает список словарей, у которых в описании есть данная строка
+    """
 
-    found_list = []
-    for d in data:
-        if re.search(search, d["description"], flags=re.IGNORECASE):
-            found_list.append(d)
+    if not search:
+        return data.copy()
 
-    return found_list
+    pattern = re.compile(search, re.IGNORECASE)
 
-def process_bank_operations(data:list[dict], categories:list[str]) -> dict[str, int]:
-    """Принимает список словарей с данными о банковских операциях и список категорий.
-    Возвращает словарь, где ключи — названия категорий, значения — количество операций,
-    в которых description содержит соответствующую категорию (подстроку)."""
+    filtered_data = []
+    for transact in data:
+        description = transact.get("description")
+        if not description:
+            continue
+        if pattern.search(str(description)):
+            filtered_data.append(transact)
+    return filtered_data
 
-    # Список для накопления найденных категорий
-    matched_categories = []
 
-    # Проходим по каждой операции в данных
-    for operation in data:
-        try:
-            description = operation.get("description", "").upper()  # Приводим к нижнему регистру
-            # Проверяем каждую категорию
-            for category in categories:
-                if category.upper() in description:
-                    matched_categories.append(category)
-        except Exception as e:
-            # пропускаем
-            matched_categories.append("")
+def process_bank_operations(data: list[dict], categories: list) -> dict:
+    """
+    Функция принимает список словарей с данными о банковских операциях и список категорий операций.
+    Возвращает словарь, у которого ключи - категории,
+    а значение - количество операций в каждой категории.
+    """
 
-    # Создаём Counter из найденных категорий
-    counter = Counter(matched_categories)
+    if not categories:
+        return {}
 
-    # Инициализируем результат со всеми категориями (включая те, что не встретились)
-    result = {category: counter.get(category, 0) for category in categories}
+    descriptions = [d["description"] for d in data if d.get("description") in categories]
+
+    counted = dict(Counter(descriptions))
+    result = {category: counted.get(category, 0) for category in categories}
 
     return result
