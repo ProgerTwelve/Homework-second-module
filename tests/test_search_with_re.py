@@ -1,5 +1,3 @@
-import pytest
-
 from src.search_with_re import process_bank_operations, process_bank_search
 
 
@@ -73,4 +71,3 @@ def test_process_bank_operations_missing_category():
     data = [{"description": "Перевод"}]
     result = process_bank_operations(data, ["Перевод", "Покупка"])
     assert result == {"Перевод": 1, "Покупка": 0}
-

@@ -20,6 +20,3 @@ def get_excel_data(path: str = excel_path) -> list[dict[Any, Any]]:
     excel_data = pd.read_excel(path)
 
     return excel_data.to_dict(orient="records")
-
-
-
