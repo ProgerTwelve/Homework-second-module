@@ -1,10 +1,14 @@
 import logging
+import os
 from typing import Union
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Создаем путь до файла логов относительно текущей директории
+real_file_path = os.path.join(current_dir, "../logs/masks.log")
+abs_file_path = os.path.abspath(real_file_path)
+
 masks_log = logging.getLogger("masks")
-file_handler = logging.FileHandler(
-    r"C:\Users\Admin\PycharmProjects\PythonProject\logs\masks.log", "w", encoding="UTF-8"
-)
+file_handler = logging.FileHandler(abs_file_path, "w", encoding="UTF-8")
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(formatter)
 masks_log.addHandler(file_handler)

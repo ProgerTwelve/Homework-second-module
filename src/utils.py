@@ -1,11 +1,15 @@
 import json
 import logging
+import os
 from typing import Any
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Создаем путь до файла логов относительно текущей директории
+real_file_path = os.path.join(current_dir, "../logs/utils.log")
+abs_file_path = os.path.abspath(real_file_path)
+
 utils_log = logging.getLogger("utils")
-file_handler = logging.FileHandler(
-    r"C:\Users\Admin\PycharmProjects\PythonProject\logs\utils.log", "w", encoding="UTF-8"
-)
+file_handler = logging.FileHandler(abs_file_path, "w", encoding="UTF-8")
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(formatter)
 utils_log.addHandler(file_handler)
