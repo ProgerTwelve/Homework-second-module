@@ -13,7 +13,8 @@ def filter_by_state(list_of_dicts: list[dict[str, Any]], state: str = "EXECUTED"
             raise ValueError("Ключ state не найден!")
 
 
-def sort_by_date(list_for_sorted_by_date: Any, ascending: bool = True) -> list[dict[str, Any]]:
-    """Функция возвращает новый список, отсортированный по дате"""
-
-    return sorted(list_for_sorted_by_date, key=lambda x: x.get("date"), reverse=ascending)
+def sort_by_date(lst: list, key_sort: bool = True) -> list:
+    """ Функция принимает список словарей и необязательный параметр
+    и возвращает новый список, отсортированный по дате (date)."""
+    new_list = sorted(lst, key=lambda x: x.get("date"), reverse=key_sort)
+    return new_list

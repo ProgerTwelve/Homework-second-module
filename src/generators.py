@@ -1,18 +1,18 @@
-from typing import Any
+from typing import Any, Generator
 
 
-def filter_by_currency(transactions: list[dict[str, Any]], name_of_currency: str) -> Any:
-    """Принимает на вход список словарей, представляющих транзакции.
-    Функция должна возвращать итератор, который поочередно выдает транзакции,
-    где валюта операции соответствует заданной (например, USD)."""
-
-    try:
-        for transaction in transactions:
-            if transaction["operationAmount"]["currency"]["name"] == name_of_currency:
-                yield transaction
-    except StopIteration:
-        print("Элементы итерации закончены")
-
+def filter_by_currency(transactions: list[dict], currency: str) -> Generator[dict, Any, None]:
+    """ Функция принимает на вход список словарей, представляющих транзакции.
+    Возвращает итератор, который поочередно выдает транзакции,
+    где валюта операции соответствует заданной 'currency'"""
+    for transaction in transactions:
+        if (
+            "operationAmount" in transaction
+            and "currency" in transaction["operationAmount"]
+            and "name" in transaction["operationAmount"]["currency"]
+            and transaction["operationAmount"]["currency"]["name"] == currency
+        ):
+            yield transaction
 
 def transaction_descriptions(transactions_2: list[dict[str, Any]]) -> Any:
     """Принимает список словарей с транзакциями и возвращает описание каждой операции по очереди."""

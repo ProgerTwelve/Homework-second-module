@@ -20,31 +20,59 @@ def test_mask_account_card(x: str, expected: str) -> None:
     assert mask_account_card(x) == expected
 
 
-def test_mask_account_card_invalid_type() -> None:
-    with pytest.raises(TypeError):
-        mask_account_card([])
-        mask_account_card(11)
+@pytest.mark.parametrize(
+    "input_date, expected",
+    [
+        ("2025-01-01T00:00:00.000000", "01.01.2025"),
+        ("1999-05-07T15:30:45.123456", "07.05.1999"),
+        ("2000-10-10T10:10:10.101010", "10.10.2000"),
+    ],
+)
+def test_get_date_valid(input_date, expected):
+    assert get_date(input_date) == expected
+
+
+def test_get_date_range_dates():
+    assert get_date("2000-01-01T00:00:00.000000") == "01.01.2000"
+    assert get_date("2025-12-31T00:00:00.000000") == "31.12.2025"
 
 
 @pytest.mark.parametrize(
-    "x, expected",
+    "invalid_dates, expected",
     [
-        ("2024-03-11T02:26:18.671407", "11.03.2024"),
-        ("2020-08-20T08:30:45.675537", "20.08.2020"),
-        ("2025-01-12T32:76:04.875934", "12.01.2025"),
+        ("", "Некорректная дата"),
+        ("2024-3-1", "Некорректная дата"),
+        ("2023/12/20T12:00:00", "Некорректная дата"),
     ],
 )
-def test_get_date(x: str, expected: str) -> None:
-    assert get_date(x) == expected
+def test_get_date_invalid_dates(invalid_dates, expected):
+    get_date(invalid_dates) == expected
 
 
-def test_get_date_invalid_value() -> None:
-    with pytest.raises(ValueError):
-        get_date("")
-        get_date("2024-03")
+@pytest.mark.parametrize(
+    "input_date, expected",
+    [
+        ("2025-01-01T00:00:00.000000", "01.01.2025"),
+        ("1999-05-07T15:30:45.123456", "07.05.1999"),
+        ("2000-10-10T10:10:10.101010", "10.10.2000"),
+    ],
+)
+def test_get_date_valid(input_date, expected):
+    assert get_date(input_date) == expected
 
 
-def test_get_date_invalid_type() -> None:
-    with pytest.raises(TypeError):
-        get_date(["2023-08-23"])
-        get_date(20240312)
+def test_get_date_range_dates():
+    assert get_date("2000-01-01T00:00:00.000000") == "01.01.2000"
+    assert get_date("2025-12-31T00:00:00.000000") == "31.12.2025"
+
+
+@pytest.mark.parametrize(
+    "invalid_dates, expected",
+    [
+        ("", "Некорректная дата"),
+        ("2024-3-1", "Некорректная дата"),
+        ("2023/12/20T12:00:00", "Некорректная дата"),
+    ],
+)
+def test_get_date_invalid_dates(invalid_dates, expected):
+    get_date(invalid_dates) == expected

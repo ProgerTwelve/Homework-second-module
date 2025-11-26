@@ -1,6 +1,5 @@
 import logging
 import os
-from typing import Union
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # Создаем путь до файла логов относительно текущей директории
@@ -15,42 +14,46 @@ masks_log.addHandler(file_handler)
 masks_log.setLevel(logging.DEBUG)
 
 
-def get_mask_card_number(card_number: Union[int, str]) -> str:
-    """Маскирует номер банковской карты в формате 0000 00** **** 0000"""
-
-    masks_log.info(f"Проверка {card_number} на соответствие типу int или str ")
-    if isinstance(card_number, int) or isinstance(card_number, str):
-        masks_log.info("Проверка успешно пройдена")
-        str_number = str(card_number)
-        masks_log.info("Проверка длины карты")
-        if len(str_number) == 16:
-            masks_log.info("Проверка успешно пройдена")
-            str_card_number = str_number[0:4] + " " + str_number[4:6] + "** **** " + str_number[-4:]
-            masks_log.info(f"Возврат значения {str_card_number}")
-            return str_card_number
+def get_mask_card_number(card_number: int) -> str:
+    """
+    Функция маскировки банковской карты.
+    Принимает на вход номер карты и возвращает ее маску
+    """
+    try:
+        masks_log.debug(f"Начало маскировки номера карты: {card_number}")
+        my_card_number = str(card_number)
+        if len(my_card_number) >= 16:
+            card_text = my_card_number[:6] + "*" * (len(my_card_number) - 10) + my_card_number[-4:]
+            result = " ".join([card_text[i : i + 4] for i in range(0, len(card_text), 4)])
+            masks_log.info(f"Маскировка номера карты успешно завершена {result}")
         else:
-            masks_log.error("Проверка провалена. Длина номера карты не 16 чисел")
-            raise ValueError("Неверный формат данных!")
-    else:
-        masks_log.error(f"Проверка провалена. Тип данных {card_number} не является целым числом либо строкой")
-        raise TypeError("Неверный тип данных!")
+            result = my_card_number
+            masks_log.error(f"Ошибка, номер карты меньше 16 символов: {result}, маскировка не выполнена.")
+        return result
+    except Exception as e:
+        masks_log.error(f"Ошибка при маскировке номера карты {card_number}: {e}")
+        raise
 
 
-def get_mask_account(account: Union[int, str]) -> str:
-    """Маскирует номер банковского счета в формате **0000"""
-
-    masks_log.info(f"Проверка {account} на соответствие типу int или str ")
-    if isinstance(account, int) or isinstance(account, str):
-        masks_log.info("Проверка успешно пройдена")
-        str_account = str(account)
-        masks_log.info("Проверка длины символов банковского счета")
-        if len(str_account) == 20:
-            masks_log.info("Проверка успешно пройдена")
-            masks_log.info("Функция успешно вернула замаскированный счет")
-            return "**" + str_account[-4:]
+def get_mask_account(account_number: int) -> str:
+    """
+    Функция маскировки банковского счета.
+    Принимает на вход номер счета и возвращает его маску.
+    """
+    try:
+        masks_log.debug(f"Начало маскировки номера счета: {account_number}")
+        if not isinstance(account_number, int):
+            text_error = "Номер счета должен быть целым числом"
+            masks_log.error(text_error)
+            raise TypeError(text_error)
+        account_number_str = str(account_number)
+        if len(account_number_str) >= 5:
+            result = "**" + account_number_str[-4:]
+            masks_log.info(f"Маскировка счета успешно завершена {result}")
         else:
-            masks_log.error(f"Проверка {str_account} на длину символов не пройдена ")
-            raise ValueError("Неверный формат данных!")
-    else:
-        masks_log.error(f"Ошибка! {account} не является типом int или str")
-        raise TypeError("Неверный тип данных!")
+            result = account_number_str
+            masks_log.error(f"Ошибка, номер счета меньше 5 символов: {result}, маскировка не выполнена.")
+        return result
+    except Exception as e:
+        masks_log.error(f"Ошибка при маскировке счета: {account_number}: {e}")
+        raise
