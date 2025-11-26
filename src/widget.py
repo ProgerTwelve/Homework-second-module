@@ -1,18 +1,39 @@
 from .masks import get_mask_account, get_mask_card_number
 
 
-def mask_account_card(account_or_card: str) -> str:
-    """Принимает строку с информацией о типе и номере карты или счета
-    и возвращает замаскированный номер карты"""
-    account_or_card_split = account_or_card.split()
-    if "Счет" in account_or_card:
-        account_number = get_mask_account(account_or_card_split[1])
-        return f"{account_or_card_split[0]} {account_number}"
-    else:
-        card_number = get_mask_card_number(account_or_card_split[-1])
-        return f'{" ".join(account_or_card_split[:-1])} {card_number}'
+def mask_account_card(account_card: str) -> str:
+    """Функция обработки информации о карте и о счете.
+    Принимает один аргумент — строку, содержащую тип и номер карты или счета. \
+    И возвращает строку с замаскированным номером."""
+    result = "Данные отсутствуют"
+    if not isinstance(account_card, str) or not account_card.strip():
+        return result
+
+    choice_acc = account_card.strip().split()
+    if len(choice_acc) < 2:
+        return result
+
+    number_str = choice_acc[-1]
+    try:
+        number = int(number_str)
+    except (ValueError, TypeError):
+        return result
+
+    if choice_acc[0] == "Счет":
+        result = f"Счет {get_mask_account(number)}"
+        return result
+
+    card_name = " ".join(choice_acc[:-1])
+    result = f"{card_name} {get_mask_card_number(number)}"
+
+    return result
 
 
 def get_date(date: str) -> str:
     """Возвращает строку с датой в формате 'ДД.ММ.ГГГГ'"""
-    return f"{date[8]}{date[9]}.{date[5]}{date[6]}.{date[0]}{date[1]}{date[2]}{date[3]}"
+
+    result = "Некорректная дата"
+    if len(date) >= 10 and "-" in date and date.count("-") == 2:
+        year, month, day = date.split("-")
+        result = f"{day[:2]}.{month}.{year}"
+    return result
