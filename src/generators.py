@@ -5,6 +5,7 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Generator[dic
     """ Функция принимает на вход список словарей, представляющих транзакции.
     Возвращает итератор, который поочередно выдает транзакции,
     где валюта операции соответствует заданной 'currency'"""
+
     for transaction in transactions:
         if (
             "operationAmount" in transaction
@@ -13,6 +14,7 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Generator[dic
             and transaction["operationAmount"]["currency"]["name"] == currency
         ):
             yield transaction
+
 
 def transaction_descriptions(transactions_2: list[dict[str, Any]]) -> Any:
     """Принимает список словарей с транзакциями и возвращает описание каждой операции по очереди."""

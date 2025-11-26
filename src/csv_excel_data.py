@@ -1,5 +1,6 @@
-from typing import Any
 import os
+from typing import Any
+
 import pandas as pd
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -7,6 +8,7 @@ real_file_path_csv = os.path.join(current_dir, "../data/transactions.csv")
 abs_file_path_csv = os.path.abspath(real_file_path_csv)
 real_file_path_excel = os.path.join(current_dir, "../data/transactions_excel.xlsx")
 abs_file_path_excel = os.path.abspath(real_file_path_excel)
+
 
 def get_csv_data(path: str = abs_file_path_csv) -> list[dict[str, str]]:
     """Считывает финансовые операции из CSV-файла"""

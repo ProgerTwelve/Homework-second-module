@@ -1,8 +1,10 @@
 import pytest
 
+
 @pytest.fixture
 def card_number():
     return "1596 83** **** 5199"
+
 
 @pytest.fixture
 def number_valid():

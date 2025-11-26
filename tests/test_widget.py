@@ -47,32 +47,3 @@ def test_get_date_range_dates():
 )
 def test_get_date_invalid_dates(invalid_dates, expected):
     get_date(invalid_dates) == expected
-
-
-@pytest.mark.parametrize(
-    "input_date, expected",
-    [
-        ("2025-01-01T00:00:00.000000", "01.01.2025"),
-        ("1999-05-07T15:30:45.123456", "07.05.1999"),
-        ("2000-10-10T10:10:10.101010", "10.10.2000"),
-    ],
-)
-def test_get_date_valid(input_date, expected):
-    assert get_date(input_date) == expected
-
-
-def test_get_date_range_dates():
-    assert get_date("2000-01-01T00:00:00.000000") == "01.01.2000"
-    assert get_date("2025-12-31T00:00:00.000000") == "31.12.2025"
-
-
-@pytest.mark.parametrize(
-    "invalid_dates, expected",
-    [
-        ("", "Некорректная дата"),
-        ("2024-3-1", "Некорректная дата"),
-        ("2023/12/20T12:00:00", "Некорректная дата"),
-    ],
-)
-def test_get_date_invalid_dates(invalid_dates, expected):
-    get_date(invalid_dates) == expected
